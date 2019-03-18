@@ -8,43 +8,25 @@ class Ball {
   Ball(float x, float y) {
     this.p = new PVector(x,y);
     this.v = new PVector(0,0);
-    println(p);
   }
   
   void launch(float x, float y) {
     v.x = x;
     v.y = y;
   }
-  void collision(float a, float b, float c) {
+  void collision(float a, float b) {
     if ((((p.x*p.x)/(a*a)) + ((p.y*p.y)/(b*b))) >= 1) {
       /* DO THE PHYSICS FOR THE COLLISION*/
-      
-      //PVector tangent = new PVector(-p.y, p.x);
-      //PVector tangent = new PVector(b*b*p.x, a*a*p.y);
-      //float costheta = tangent.dot(p) / (tangent.mag() * p.mag());
-      //float angle = acos(costheta);
-      //float top = (a*a*p.y*p.y) + (b*b*p.x*p.x) + (b*b*p.x*c);
-      //float bottom = ((a*a - b*b)*p.x*p.y) + (a*a*p.y*c);
-      //float angle = atan(top / bottom);
-      float angle = atan(b*b/(c*p.y));
-      println(angle);
-      int xMult, yMult;
-      if (v.x > 0) {
-        xMult = 1;
-      } else {
-        xMult = -1;
-      }
-      if (v.y > 0) {
-        yMult = 1;
-      } else {
-        yMult = -1;
-      }
-      v.x *= xMult * cos(angle);
-      v.y *= yMult * sin(angle);
-      println(v);
-      for (int i = 0; i < 100; i++) {
-        //update();
-      }
+      //http://www.3dkingdoms.com/weekly/weekly.php?a=2
+      //https://math.stackexchange.com/questions/1673378/determining-the-normal-of-an-ellipse
+      PVector normal = new PVector();
+      normal.x = -1*p.x;
+      normal.y = (a/b)*(a/b)*p.y;
+      normal.normalize();
+      PVector bounce = new PVector(normal.x, normal.y);
+      bounce.mult(-2*(v.dot(normal)));
+      bounce.add(v);
+      v = bounce;
     }
   }
   void update() {
@@ -53,7 +35,7 @@ class Ball {
   }
   void show() {
     stroke(255, 0, 0);
-    println(p);
+    strokeWeight(10);
     point(p.x, p.y);
   }
 }
