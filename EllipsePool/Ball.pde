@@ -6,10 +6,10 @@ class Ball {
     this(location.x, location.y);
   }
   Ball(float x, float y) {
-    this.p = new PVector(x,y);
-    this.v = new PVector(0,0);
+    this.p = new PVector(x, y);
+    this.v = new PVector(0, 0);
   }
-  
+
   void launch(float x, float y) {
     v.x = x;
     v.y = y;
@@ -29,12 +29,21 @@ class Ball {
       v = bounce;
     }
   }
+
+  boolean inHole(PVector[] holes, float fociStroke) {
+    for (PVector hole : holes) {
+      if (p.dist(hole) <= fociStroke) {
+        return true;
+      }
+    }
+    return false;
+  }
   void update() {
     p.x += v.x;
     p.y -= v.y;
   }
   void show() {
-    stroke(255, 0, 0);
+    stroke(255,0,0);
     strokeWeight(10);
     point(p.x, p.y);
   }

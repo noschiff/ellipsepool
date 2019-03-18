@@ -1,4 +1,5 @@
 float a, b, c;
+float fociStroke;
 PVector foci1, foci2;
 Ball ball;
 
@@ -22,14 +23,17 @@ void draw() {
   strokeWeight(5);
   point(foci1.x, foci1.y);
   point(foci2.x, foci2.y);
-  ball.collision(a,b);
+  ball.collision(a, b);
   ball.update();
+  //if (ball.inHole(new PVector[]{foci1, foci2}, fociStroke)) {
+  //  println("in the hole");
+  //}
   ball.show();
 }
 
 //test the launch
 void mousePressed() {
-  float x = map(mouseX, 0, width, -5, 5);
-    float y = -map(mouseY, 0, height, -5, 5);
+  float x = map(mouseX, 0, width, -10, 10);
+  float y = -map(mouseY, 0, height, -10, 10);
   ball.launch(x, y);
 }
